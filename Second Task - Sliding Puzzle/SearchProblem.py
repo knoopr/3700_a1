@@ -59,7 +59,10 @@ class SearchProblem:
     By default it prints out the path that was followed to get to the 
     current state.
     """
-    print( "Solution: " + self.path );
+    if "ud" not in self.path and "du" not in self.path and "lr" not in self.path and "rl" not in self.path:
+        print "Depth = " + str(self.state[0]),
+        print " - States = " + str(len(previous_States)),
+        print "- Solution: " + self.path
 
   def continue_search( self ):
     """

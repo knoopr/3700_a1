@@ -1,6 +1,8 @@
 from SearchProblem import *
 import random, copy
 
+previous_States = []
+
 def Find_space(input_Array):
     for index, numbers in enumerate(input_Array):
         if ' ' in numbers:
@@ -48,31 +50,40 @@ def Slide_left(input_Array):
 class PUZZLE( SearchProblem ):
     def __init__ (self, state=()):
         self.state = state
-        self.path = "";
+        self.path = ""
         
         
     def edges(self):
         my_edges=[]
-        if self.state[0] != 50:
+        
+        # tried to do a duplicate state search but the list doesn't seem to find the duplicates
+        if self.state[1] not in previous_States:
+            previous_States.append(self.state[1])
+        '''if self.state[1] in previous_States:
+            print str(self.state[1]) + " " + self.path + " - duplicate"
+            return my_edges
+        else:
+            previous_States.append(self.state[1])
+            print str(self.state[1]) + " " + self.path
+        '''
+        
+        
+        if self.state[0] != 30:
             result = Slide_up(self.state[1])
-            if result != None:
+            if result != None and not self.path.endswith("d"):
                 my_edges.append( Edge( self, "u" , PUZZLE((self.state[0]+1, result))))
 
             result = Slide_down(self.state[1])
-            if result != None:
+            if result != None and not self.path.endswith("u"):
                 my_edges.append( Edge( self, "d" , PUZZLE((self.state[0]+1, result))))
 
             result = Slide_left(self.state[1])
-            if result != None:
+            if result != None and not self.path.endswith("r"):
                 my_edges.append( Edge( self, "l" , PUZZLE((self.state[0]+1, result))))
 
             result = Slide_right(self.state[1])
-            if result != None:
+            if result != None and not self.path.endswith("l"):
                 my_edges.append( Edge( self, "r" , PUZZLE((self.state[0]+1, result))))
-            '''my_edges.append( Edge( self, "d" , PUZZLE((self.state[0]+1, Slide_down(self.state[1])))))
-            my_edges.append( Edge( self, "l" , PUZZLE((self.state[0]+1, Slide_left(self.state[1])))))
-            my_edges.append( Edge( self, "r" , PUZZLE((self.state[0]+1, Slide_right(self.state[1])))))'''
-        
         return my_edges
     
 
@@ -97,4 +108,4 @@ if __name__ == "__main__":
             i += 1
 
     print str(num_Array) + ":\n\n"
-    PUZZLE(state=(0, num_Array)).dfs()
+    PUZZLE(state=(0, [[8,3,' '],[2,4,5],[1,6,7]])).dfs()
