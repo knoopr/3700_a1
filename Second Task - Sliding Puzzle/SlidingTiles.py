@@ -106,8 +106,8 @@ if __name__ == "__main__":
                 already_Placed.append(' ')
                 i += 1
         print str(num_Array)
-        #PUZZLE(state=(0, num_Array, []), states_Visited=[0]).dfs()
-        start_node = PUZZLE(state=(0, num_Array, []), states_Visited=[0])
-        PUZZLE(state=(0, num_Array, []), states_Visited=[0]).bfs(level = 1)
-        break
+        PUZZLE(state=(0, num_Array, []), states_Visited=[0]).dfs()
+        for j in range(25):
+            print j
+            PUZZLE(state=(0, num_Array, []), states_Visited=[0]).bfs(level = j, queue = [])
         print "\n\n"

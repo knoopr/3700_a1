@@ -98,14 +98,26 @@ class SearchProblem:
 
 
 
-  def bfs(self, level=0, cur_Queue = [], next_Queue = []):
-    if not cur_Queue and not next_Queue:
-      for action in self.edges():
-        cur_Queue.append(action)
-              
+  def bfs(self, level=0, queue = []):
+    if not queue:
+      queue.append(Edge( "", "", self))
+    
+    
+    while queue and not queue[0].destination.state[0] == level:
+        #while not cur_Queue:#not cur_Queue.index(0).destination.state[0] == 25:
+      queue_Node = queue.pop(0)
+      for action in queue_Node.destination.edges():
+        action.destination.path = queue_Node.destination.path + str(action.label);
+        #print action.destination.path,
+        #print action.destination.state[0]
+        queue.append(action)
 
-    for action in cur_Queue:
-      print action.destination.state[0]
+    for action in queue:
+        if action.destination.is_target():
+          action.destination.target_found()
+          if not self.continue_search():
+            break
+
     '''
     if cur_Queue[0].destination.state[0] == level:
       for i in cur_Queue:
