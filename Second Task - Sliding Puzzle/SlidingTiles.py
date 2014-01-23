@@ -1,7 +1,7 @@
 from SearchProblem import *
 import random, copy
 
-previous_States = []
+
 
 def Find_space(input_Array):
     for index, numbers in enumerate(input_Array):
@@ -48,42 +48,39 @@ def Slide_left(input_Array):
     return None
 
 class PUZZLE( SearchProblem ):
-    def __init__ (self, state=()):
+    def __init__ (self, state=(), passed_Previous=[], states_Visited = []):
         self.state = state
         self.path = ""
-        
+        self.previous_States = copy.deepcopy(passed_Previous)
+        self.total_States = states_Visited
+        self.total_States[0] += 1
         
     def edges(self):
         my_edges=[]
         
         # tried to do a duplicate state search but the list doesn't seem to find the duplicates
-        if self.state[1] not in previous_States:
-            previous_States.append(self.state[1])
-        '''if self.state[1] in previous_States:
-            print str(self.state[1]) + " " + self.path + " - duplicate"
-            return my_edges
+        if ''.join(str(x) for x in self.state[1]) not in self.previous_States:
+            self.previous_States.append(''.join(str(x) for x in self.state[1]))
         else:
-            previous_States.append(self.state[1])
-            print str(self.state[1]) + " " + self.path
-        '''
+            return my_edges
         
         
-        if self.state[0] != 30:
+        if self.state[0] != 25:
             result = Slide_up(self.state[1])
             if result != None and not self.path.endswith("d"):
-                my_edges.append( Edge( self, "u" , PUZZLE((self.state[0]+1, result))))
+                my_edges.append( Edge( self, "u" , PUZZLE((self.state[0]+1, result), self.previous_States, self.total_States)))
 
             result = Slide_down(self.state[1])
             if result != None and not self.path.endswith("u"):
-                my_edges.append( Edge( self, "d" , PUZZLE((self.state[0]+1, result))))
+                my_edges.append( Edge( self, "d" , PUZZLE((self.state[0]+1, result), self.previous_States, self.total_States)))
 
             result = Slide_left(self.state[1])
             if result != None and not self.path.endswith("r"):
-                my_edges.append( Edge( self, "l" , PUZZLE((self.state[0]+1, result))))
+                my_edges.append( Edge( self, "l" , PUZZLE((self.state[0]+1, result), self.previous_States, self.total_States)))
 
             result = Slide_right(self.state[1])
             if result != None and not self.path.endswith("l"):
-                my_edges.append( Edge( self, "r" , PUZZLE((self.state[0]+1, result))))
+                my_edges.append( Edge( self, "r" , PUZZLE((self.state[0]+1, result), self.previous_States, self.total_States)))
         return my_edges
     
 
@@ -91,21 +88,26 @@ class PUZZLE( SearchProblem ):
         return self.state[1][0] == [1,2,3] and self.state[1][1] == [4,5,6] and self.state[1][2] == [7,8,' ']
 
 if __name__ == "__main__":
-    i = 0
-    already_Placed = []
-    num_Array = [[]*3 for x in xrange(3)]
-        
-    random.seed()
-    while len(already_Placed) < 9 :    #while we haven't generated 8 numbers and a ' '
-        new_Tile = random.randint(1,8)
-        if new_Tile not in already_Placed: #Generate one of each number
-            num_Array[i % 3].append(new_Tile)
-            already_Placed.append(new_Tile)
-            i += 1
-        elif ' ' not in already_Placed:    #Generate one ' '
-            num_Array[i%3].append(' ')
-            already_Placed.append(' ')
-            i += 1
 
-    print str(num_Array) + ":\n\n"
-    PUZZLE(state=(0, [[8,3,' '],[2,4,5],[1,6,7]])).dfs()
+    for j in range(50):
+        i = 0
+        already_Placed = []
+        num_Array = [[]*3 for x in xrange(3)]
+        
+        random.seed()
+        while len(already_Placed) < 9 :    #while we haven't generated 8 numbers and a ' '
+            new_Tile = random.randint(1,8)
+            if new_Tile not in already_Placed: #Generate one of each number
+                num_Array[i % 3].append(new_Tile)
+                already_Placed.append(new_Tile)
+                i += 1
+            elif ' ' not in already_Placed:    #Generate one ' '
+                num_Array[i%3].append(' ')
+                already_Placed.append(' ')
+                i += 1
+        print str(num_Array)
+        #PUZZLE(state=(0, num_Array, []), states_Visited=[0]).dfs()
+        start_node = PUZZLE(state=(0, num_Array, []), states_Visited=[0])
+        PUZZLE(state=(0, num_Array, []), states_Visited=[0]).bfs(level = 1)
+        break
+        print "\n\n"

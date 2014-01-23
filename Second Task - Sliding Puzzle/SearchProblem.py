@@ -61,7 +61,7 @@ class SearchProblem:
     """
     if "ud" not in self.path and "du" not in self.path and "lr" not in self.path and "rl" not in self.path:
         print "Depth = " + str(self.state[0]),
-        print " - States = " + str(len(previous_States)),
+        print "Total States = " + str(self.total_States[0]),
         print "- Solution: " + self.path
 
   def continue_search( self ):
@@ -80,7 +80,6 @@ class SearchProblem:
   
     self.visited.add( repr(self ) );	# add current node to class variable
 					# visited
-
     for action in self.edges(): # consider each edge leading out of this node
       action.destination.path = self.path + str(action.label);	
 					# get the label associated with the
@@ -92,12 +91,36 @@ class SearchProblem:
         action.destination.target_found();	# perform target found action
         if not self.continue_search():	# stop searching if not required
           break;
-
       if repr(action.destination) in self.visited:
         continue;		# skip if we've visited this one before
 
       action.destination.dfs();			# resume recursive search 
 
+
+
+  def bfs(self, level=0, cur_Queue = [], next_Queue = []):
+    if not cur_Queue and not next_Queue:
+      for action in self.edges():
+        cur_Queue.append(action)
+              
+
+    for action in cur_Queue:
+      print action.destination.state[0]
+    '''
+    if cur_Queue[0].destination.state[0] == level:
+      for i in cur_Queue:
+        if i.state[1].is_target():
+          i.target_found
+          if not self.continue_search():
+            break
+    
+    else:
+      for i in cur_Queue:
+        for action in i.edges():
+            action.destination.path = action.destination.path + str(action.label)
+            next_Queue.append(action)
+      self.bfs(level=level+1, cur_Queue = next_Queue)
+      '''
 class Edge:
   """
   This class represents an edge between two nodes in a SearchProblem.
