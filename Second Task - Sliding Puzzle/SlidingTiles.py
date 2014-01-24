@@ -105,9 +105,9 @@ if __name__ == "__main__":
                 num_Array[i%3].append(' ')
                 already_Placed.append(' ')
                 i += 1
-        print str(num_Array)
+        print str(num_Array) + "\nDepth first search results:"
         PUZZLE(state=(0, num_Array, []), states_Visited=[0]).dfs()
+        print "\nBreadth search results:"
         for j in range(25):
-            print j
             PUZZLE(state=(0, num_Array, []), states_Visited=[0]).bfs(level = j, queue = [])
         print "\n\n"

@@ -59,10 +59,9 @@ class SearchProblem:
     By default it prints out the path that was followed to get to the 
     current state.
     """
-    if "ud" not in self.path and "du" not in self.path and "lr" not in self.path and "rl" not in self.path:
-        print "Depth = " + str(self.state[0]),
-        print "Total States = " + str(self.total_States[0]),
-        print "- Solution: " + self.path
+    print "Depth = " + str(len(self.path)),
+    print "Total States = " + str(self.total_States[0]),
+    print "- Solution: " + self.path
 
   def continue_search( self ):
     """
@@ -85,7 +84,6 @@ class SearchProblem:
 					# get the label associated with the
 					# action and append it to the path
 					# string
-
       if action.destination.is_target(): 
 				# check if destination of edge is target node
         action.destination.target_found();	# perform target found action
@@ -102,8 +100,7 @@ class SearchProblem:
     if not queue:
       queue.append(Edge( "", "", self))
     
-    
-    while queue and not queue[0].destination.state[0] == level:
+    while queue and not len(queue[0].destination.path) == level:
         #while not cur_Queue:#not cur_Queue.index(0).destination.state[0] == 25:
       queue_Node = queue.pop(0)
       for action in queue_Node.destination.edges():
@@ -112,27 +109,13 @@ class SearchProblem:
         #print action.destination.state[0]
         queue.append(action)
 
+
     for action in queue:
         if action.destination.is_target():
           action.destination.target_found()
           if not self.continue_search():
             break
 
-    '''
-    if cur_Queue[0].destination.state[0] == level:
-      for i in cur_Queue:
-        if i.state[1].is_target():
-          i.target_found
-          if not self.continue_search():
-            break
-    
-    else:
-      for i in cur_Queue:
-        for action in i.edges():
-            action.destination.path = action.destination.path + str(action.label)
-            next_Queue.append(action)
-      self.bfs(level=level+1, cur_Queue = next_Queue)
-      '''
 class Edge:
   """
   This class represents an edge between two nodes in a SearchProblem.
