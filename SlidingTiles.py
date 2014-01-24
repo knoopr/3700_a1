@@ -1,7 +1,6 @@
 from SearchProblem import *
 import random, copy
-
-
+import datetime
 
 def Find_space(input_Array):
     for index, numbers in enumerate(input_Array):
@@ -106,8 +105,13 @@ if __name__ == "__main__":
                 already_Placed.append(' ')
                 i += 1
         print str(num_Array) + "\nDepth first search results:"
+        a = datetime.datetime.now()
         PUZZLE(state=(0, num_Array, []), states_Visited=[0]).dfs()
+        b = datetime.datetime.now()
+        print "Time taken: " + (b-a)
         print "\nBreadth search results:"
+        a = datetime.datetime.now()
         for j in range(25):
             PUZZLE(state=(0, num_Array, []), states_Visited=[0]).bfs(level = j, queue = [])
+        print "Time taken: " + (a-b)
         print "\n\n"
