@@ -97,19 +97,16 @@ class SearchProblem:
 
 
   def bfs(self, level=0, queue = []):
-    if not queue:
+    if not queue:               #if nothing in the queue yet, assume that we are just starting
       queue.append(Edge( "", "", self))
     
     while queue and not len(queue[0].destination.path) == level:
-        #while not cur_Queue:#not cur_Queue.index(0).destination.state[0] == 25:
-      queue_Node = queue.pop(0)
+      queue_Node = queue.pop(0)        #Remove the top node from the queue
       for action in queue_Node.destination.edges():
         action.destination.path = queue_Node.destination.path + str(action.label);
-        #print action.destination.path,
-        #print action.destination.state[0]
         queue.append(action)
 
-
+    #Once all of the queue is the given depth
     for action in queue:
         if action.destination.is_target():
           action.destination.target_found()

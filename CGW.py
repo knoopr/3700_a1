@@ -12,7 +12,7 @@ class CGW( SearchProblem ):
   def __init__( self, state= (1, "CGW", "" ),states_Visited = [0],passed_Previous=[] ):
     self.state = state;
     self.total_States = states_Visited
-    self.previous_States = copy.deepcopy(passed_Previous)
+    self.previous_States = copy.deepcopy(passed_Previous) #all states in the current branch
     self.total_States[0] += 1
     self.om_nom_nom();
     self.path = "";
