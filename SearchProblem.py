@@ -25,7 +25,7 @@ class SearchProblem:
 
   # class variable holding a set of strings representing states of the
   # problem that have been visited by the search algorithm
-  visited = set();
+  #visited = set();
 
   def edges( self ):
     """
@@ -77,7 +77,7 @@ class SearchProblem:
     Recursive method.
     """
   
-    self.visited.add( repr(self ) );	# add current node to class variable
+  #self.visited.add( repr(self ) );	# add current node to class variable
 					# visited
     for action in self.edges(): # consider each edge leading out of this node
       action.destination.path = self.path + str(action.label);	
@@ -89,8 +89,8 @@ class SearchProblem:
         action.destination.target_found();	# perform target found action
         if not self.continue_search():	# stop searching if not required
           break;
-      if repr(action.destination) in self.visited:
-        continue;		# skip if we've visited this one before
+      #if repr(action.destination) in self.visited:
+      #continue;		# skip if we've visited this one before
 
       action.destination.dfs();			# resume recursive search 
 
