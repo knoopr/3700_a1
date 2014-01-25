@@ -1,5 +1,6 @@
 from SearchProblem import *;
 import copy
+import datetime
 
 def remove_letter( input_string, letter ):
   return input_string.replace( letter, "" );
@@ -93,8 +94,11 @@ class CGW( SearchProblem ):
     return self.state[0]==2 and self.state[2] == "CGW";
 
 if __name__ == "__main__":
+  a = datetime.datetime.now()
   print "\nDepth first search results:"
   CGW( state=(1,"CGW",""), states_Visited=[0] ).dfs();
+  print (datetime.datetime.now() - a)
   print "\nBreadth search results:"
   for j in (range(25)):
     CGW( state=(1,"CGW",""), states_Visited=[0] ).bfs(level = j, queue = []);
+  print (datetime.datetime.now() - a)

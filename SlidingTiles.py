@@ -113,5 +113,6 @@ if __name__ == "__main__":
         a = datetime.datetime.now()
         for j in range(25):
             PUZZLE(state=(0, num_Array, []), states_Visited=[0]).bfs(level = j, queue = [])
-        print "Time taken: " + str(a-b)
+        b = datetime.datetime.now()
+        print "Time taken: " + str(b-a)
         print "\n\n"
