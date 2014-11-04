@@ -1,0 +1,5 @@
+[[8, 7, 5], [1, 2, 6], [' ', 3, 4]]
+Depth first search results:
+Time taken: 0:13:46.853258
+
+Breadth search results:
